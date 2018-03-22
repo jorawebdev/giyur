@@ -1,9 +1,1 @@
-// special tag for using to check if the style file has been imported
-.react-vis-magic-css-import-rule {
-  display: inherit;
-}
-@import '../../node_modules/react-vis/dist/style';
-@import '../../node_modules/react-vis/dist/styles/treemap';
-@import '../../node_modules/react-vis/dist/styles/plot';
-@import '../../node_modules/react-vis/dist/styles/legends';
-@import '../../node_modules/react-vis/dist/styles/radial-chart';
+@import "~bootstrap/scss/bootstrap";

@@ -1,48 +1,21 @@
-import React, {Component} from 'react';
-//import './App.css';
-import Chart from './components/chart'
-import Plot from './components/plot'
-import Arc from './components/arc'
-
-const API_URL = "https://nataliia-radina.github.io/react-vis-example/";
+import React, {Component} from 'react'
+import Header from './pages/header'
+import Routes from './routes'
 
 class App extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            results: [],
-        };
-    }
-
-    componentDidMount() {
-      console.log('mounted');
-        fetch(API_URL)
-            .then(response => {
-                if (response.ok) {
-                    return  response.json()
-                }
-                else {
-                    throw new Error ('something went wrong')
-                }
-            })
-            .then(response => this.setState({
-                results: response.results.filter((r)=>{
-                        return r.name === 'JavaScript';
-                    })
-                })
-            )}
-
-    render() {
-        const {results} = this.state;
-
-        return (
-            <div className="App">
-                <Chart data={results}/>
-                <Plot />
-                <Arc />
-            </div>
-        );
-    }
+  constructor(props) {
+      super(props)
+  }
+  render() {
+      //console.log('in index.js: ', this.props);
+      return (
+          <div className="App">
+              <Header {...this.props} />
+              <div id="heroBox" className="d-flex justify-content-center"><h1 className="col-4 align-self-center">Giyur: your DATA VISUALIZATION</h1></div>
+              <Routes {...this.props} />
+          </div>
+      );
+  }
 }
 
 export default App;

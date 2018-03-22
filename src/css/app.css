@@ -26,3 +26,13 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+#heroBox{
+  background:url('../img/giyur_hero.jpg');
+  height: 350px;
+}
+#heroBox h1{color: #fff;}
+.formErrors{
+  color:#f30;
+  text-align:left;
+}

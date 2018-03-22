@@ -3,6 +3,7 @@ const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const port = process.env.PORT || 3000;
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -20,7 +21,15 @@ module.exports = {
         }
       }
     },
-    minimize: true
+    minimizer: [
+      new UglifyJsPlugin({
+        uglifyOptions: {
+          mangle: {
+            keep_fnames: true,
+          },
+        },
+      }),
+    ]
   },
   devtool: 'inline-source-map',
   resolve: {
@@ -29,13 +38,6 @@ module.exports = {
   output: {
     path: __dirname + '/dist',
     filename: '[name].js'
-  },
-  devServer: {
-    contentBase: path.join(__dirname, "dist"),
-    port: 3000,
-    compress: true,
-    hot: true,
-    open: true
   },
   module: {
     rules: [
@@ -85,7 +87,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: '/img/[name]_[hash:7].[ext]',
+              name: './img/[name]_[hash:7].[ext]',
             }
           },
         ]
@@ -93,13 +95,9 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebPackPlugin({
       template: "./index.html",
       filename: "./index.html"
-    }),
-    new webpack.DefinePlugin({
-        'process.env.NODE_ENV': '"production"'
     }),
     new BundleAnalyzerPlugin()
   ]
