@@ -3,6 +3,7 @@ import Chart from '../components/chart'
 import Plot from '../components/plot'
 import Arc from '../components/arc'
 import '../../css/app.scss';
+import '../../css/react-vis.scss';
 
 const API_URL = "https://nataliia-radina.github.io/react-vis-example/";
 

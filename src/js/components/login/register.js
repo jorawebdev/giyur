@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+const serviceBase = window.location.pathname.split('/dist')[0];
 
 class Register extends Component {
   submit(e){
     e.preventDefault()
     const data = {user:{name:'zach',email:'zach@zach.com',password:'test123',roles:'basic'}}; //get from form
-    axios.post(window.location.pathname.split('/dist')[0]+'/services/insertCustomer', data)
+    console.log(data);
+    axios.post(serviceBase + '/services/insertCustomer', data)
       .then(function (response) {
         console.log(response);
       })

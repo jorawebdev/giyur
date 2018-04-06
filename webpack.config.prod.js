@@ -1,15 +1,17 @@
 const webpack = require('webpack');
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-const port = process.env.PORT || 3000;
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: {
     app: './src/app.js',
     vendors: ['react-vis','jquery','bootstrap','react-dom']
+  },
+  output: {
+    path: __dirname + '/dist',
+    filename: '[name].js'
   },
   optimization: {
     splitChunks: {
@@ -21,23 +23,11 @@ module.exports = {
         }
       }
     },
-    minimizer: [
-      new UglifyJsPlugin({
-        uglifyOptions: {
-          mangle: {
-            keep_fnames: true,
-          },
-        },
-      }),
-    ]
+    minimize: true
   },
   devtool: 'inline-source-map',
   resolve: {
     extensions: ['*', '.js', '.jsx']
-  },
-  output: {
-    path: __dirname + '/dist',
-    filename: '[name].js'
   },
   module: {
     rules: [
@@ -87,7 +77,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: './img/[name]_[hash:7].[ext]',
+              name: '[path]/img/[name]_[hash:7].[ext]',
             }
           },
         ]
@@ -95,6 +85,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebPackPlugin({
       template: "./index.html",
       filename: "./index.html"

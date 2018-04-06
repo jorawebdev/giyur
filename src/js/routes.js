@@ -1,10 +1,10 @@
 import React, {Component} from 'react'
 import { Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux';
-import Home from './pages/Home'
-import Upload from './pages/Upload'
+import Home from './pages/home'
+import Upload from './pages/upload'
 import PubCharts from './pages/pubCharts'
-import PrivateRoute from './components/login/PrivateRoute'
+import PrivateRoute from './components/login/privateRoute'
 
 class Routes extends Component {
   render() {

@@ -18,15 +18,6 @@
   font-size: 1.5em;
 }
 
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
 #heroBox{
   background:url('../img/giyur_hero.jpg');
   height: 350px;

@@ -4,9 +4,9 @@
   "description": "",
   "main": "./src/app.js",
   "scripts": {
-    "build": "webpack --progress --config webpack.config.prod.js -p",
-    "dev": "webpack --watch --progress --config --open",
-    "start": "webpack-dev-server"
+    "dev": "webpack --hot --define process.env.NODE_ENV='\"production\"'",
+    "build": "webpack --mode production --config webpack.config.prod.js",
+    "start": "webpack-dev-server --hot"
   },
   "keywords": [],
   "author": "",
@@ -34,7 +34,8 @@
     "sass-loader": "^6.0.7",
     "style-loader": "^0.20.3",
     "uglifyjs-webpack-plugin": "^1.2.4",
-    "webpack": "^4.1.1",
+    "update": "^0.7.4",
+    "webpack": "^4.4.1",
     "webpack-bundle-analyzer": "^2.11.1",
     "webpack-cli": "^2.0.10",
     "webpack-dev-server": "^3.1.0"

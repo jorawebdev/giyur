@@ -1,7 +1,6 @@
 const webpack = require('webpack');
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-const port = process.env.PORT || 3000;
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
@@ -9,6 +8,10 @@ module.exports = {
   entry: {
     app: './src/app.js',
     vendors: ['react-vis','jquery','bootstrap','react-dom']
+  },
+  output: {
+    path: __dirname + '/dist',
+    filename: '[name].js'
   },
   optimization: {
     splitChunks: {
@@ -25,17 +28,6 @@ module.exports = {
   devtool: 'inline-source-map',
   resolve: {
     extensions: ['*', '.js', '.jsx']
-  },
-  output: {
-    path: __dirname + '/dist',
-    filename: '[name].js'
-  },
-  devServer: {
-    contentBase: path.join(__dirname, "dist"),
-    port: 3000,
-    compress: true,
-    hot: true,
-    open: true
   },
   module: {
     rules: [
@@ -85,7 +77,7 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: '/img/[name]_[hash:7].[ext]',
+              name: '[path]/img/[name]_[hash:7].[ext]',
             }
           },
         ]
@@ -97,9 +89,6 @@ module.exports = {
     new HtmlWebPackPlugin({
       template: "./index.html",
       filename: "./index.html"
-    }),
-    new webpack.DefinePlugin({
-        'process.env.NODE_ENV': '"production"'
     }),
     new BundleAnalyzerPlugin()
   ]

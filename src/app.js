@@ -13,7 +13,7 @@ const root = document.getElementById('app');
 
 ReactDOM.render(
   (<Provider store={store}>
-    <Router basename="~az/giyur/dist/">
+    <Router basename="giyur/dist/">
       <App />
     </Router>
   </Provider>

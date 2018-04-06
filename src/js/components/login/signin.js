@@ -82,11 +82,11 @@ class Signin extends Component {
     const that = this;
     console.log(data, this.props);
 //response.data = {email:"zach@zach.com",name:"zach",roles:"basic"}
-that.props.dispatch({ type: 'LOGIN', name: 'zach', role: 'basic'});
-return;
+//that.props.dispatch({ type: 'LOGIN', name: 'zach', role: 'basic'});
+//return;
     axios.post(serviceBase + '/services/signin', data)
       .then(function (response) {
-        console.log(response);
+        console.log(response, 'test');
         if(response.status == 200){
           that.props.dispatch({ type: 'LOGIN', name: response.data.name, role: response.data.roles});
           that.setCookie(response);
@@ -121,11 +121,9 @@ return;
           <h4>Sign in</h4>
           <form onSubmit={this.submit} id="Signin">
             <div className="form-group">
-              <label htmlFor="uname" className="float-left">Username</label>
               <input type="text" className="form-control" placeholder='Username' value={this.state.username} name="username" onChange={this.handleUserInput.bind(this)} required/>
             </div>
             <div className="form-group">
-              <label htmlFor="psw" className="float-left">Password</label>
               <input type="password" className="form-control" placeholder='Password' value={this.state.password} name="password" onChange={this.handleUserInput.bind(this)} required/>
             </div>
             <div className="panel panel-default">
