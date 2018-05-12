@@ -16,6 +16,7 @@ class Schedule extends Component {
   }
   componentDidMount() {
       console.log('mounted');
+
       fetch(API_URL)
           .then(response => {
               if (response.ok) {

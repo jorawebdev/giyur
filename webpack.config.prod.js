@@ -6,7 +6,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 module.exports = {
   mode: 'production',
   entry: {
-    app: './src/app.js',
+    main: './src/app.js',
     vendors: ['react-vis','jquery','bootstrap','react-dom']
   },
   output: {

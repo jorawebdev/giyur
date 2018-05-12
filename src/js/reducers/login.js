@@ -2,6 +2,7 @@ const initialState = {
     isLoggedIn: false,
     name: '',
     email: '',
+    profile: '',
     role: ''
 };
 
@@ -11,13 +12,13 @@ const login = (state = initialState, action) => {
       case 'LOGIN':
           return Object.assign({}, state, {
               isLoggedIn: true,
-              name: action.name,
+              profile: action.uProfile,
               role: action.role,
           });
       case 'LOGOUT':
           return Object.assign({}, state, {
               isLoggedIn: false,
-              name: '',
+              profile: '',
               role: ''
           });
       default:

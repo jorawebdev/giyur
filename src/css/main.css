@@ -21,6 +21,7 @@
 #heroBox{
   background:url('../img/giyur_hero.jpg');
   height: 350px;
+  margin: 0 0 40px 0;
 }
 #heroBox h1{color: #fff;}
 .formErrors{

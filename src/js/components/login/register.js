@@ -23,12 +23,13 @@ class Register extends Component {
           <h4>Register</h4>
           <form onSubmit={this.submit} id="Register">
             <div className="form-group">
-              <label htmlFor="uname" className="float-left">Username</label>
-              <input type="text" className="form-control" placeholder="Enter Username" name="uname" required/>
+              <input type="text" className="form-control" placeholder="Username" name="uname" required/>
             </div>
             <div className="form-group">
-              <label htmlFor="psw" className="float-left">Password</label>
-              <input type="password" className="form-control" placeholder="Enter Password" name="psw" required/>
+              <input type="email" className="form-control" placeholder="Email" name="email" required/>
+            </div>
+            <div className="form-group">
+              <input type="password" className="form-control" placeholder="Password" name="psw" required/>
             </div>
             <button type="submit" className="btn btn-primary float-right">Register</button>
           </form>

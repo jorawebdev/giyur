@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 import FormErrors from './formErrors';
+import { GoogleLogin } from 'react-google-login-component';
+import '../../../css/socbuttons.css';
 
 const serviceBase = window.location.pathname.split('/dist')[0];
 
@@ -22,6 +24,7 @@ class Signin extends Component {
           submit: false
       };
       this.submit = this.submit.bind(this);
+      this.responseGoogle = this.responseGoogle.bind(this);
   }
 
   validateField(fieldName, value) {
@@ -67,6 +70,19 @@ class Signin extends Component {
       () => { this.validateField(name, value) });
   }
 
+  responseGoogle(googleUser){
+    const id_token = googleUser.getAuthResponse().id_token;
+    const googleId = googleUser.getId();
+    let uProfile = googleUser.getBasicProfile(true);
+    uProfile = {name: uProfile.getGivenName(), img: uProfile.getImageUrl(), email: uProfile.getEmail()}
+
+    //console.log(googleUser);
+    //console.log({ googleId });
+    //console.log({accessToken: id_token});
+    //console.log({uProfile});
+    this.props.dispatch({ type: 'LOGIN', uProfile, role: 'response.data.roles'});
+  }
+
   setCookie(res){
     var date = new Date();
     date.setTime(date.getTime() + (30 * 60 * 1000)); //30 minutes
@@ -85,6 +101,7 @@ class Signin extends Component {
 //that.props.dispatch({ type: 'LOGIN', name: 'zach', role: 'basic'});
 //return;
     axios.post(serviceBase + '/services/signin', data)
+    //axios.post('/services/signin', data)
       .then(function (response) {
         console.log(response, 'test');
         if(response.status == 200){
@@ -131,13 +148,22 @@ class Signin extends Component {
             </div>
             <button type="submit" className="btn btn-primary float-right" disabled={!this.state.formValid}>Sign in</button>
           </form>
+          <div className="more-auth-box">
+            <div>or</div>
+            <GoogleLogin socialId="718873364185-1hatl4a1gld3lvklcmjuh9gc4ieka53u.apps.googleusercontent.com"
+                       className="google-login loginBtn loginBtn--google"
+                       scope="profile"
+                       fetchBasicProfile={true}
+                       responseHandler={this.responseGoogle}
+                       buttonText="Signin With Google"/>
+          </div>
         </div>
     );
   }
 }
 
 function mapStateToProps(state) {
-  console.log('in mapStateToProps: ', state);
+  //console.log('in mapStateToProps: ', state);
   return {
     isLoggedIn: state.login.isLoggedIn
   };

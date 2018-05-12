@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../../css/app.css';
 import {  XYPlot,
   ArcSeries,
   XAxis,

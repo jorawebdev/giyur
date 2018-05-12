@@ -11,7 +11,6 @@ class App extends Component {
       return (
           <div className="App">
               <Header {...this.props} />
-              <div id="heroBox" className="d-flex justify-content-center"><h1 className="col-4 align-self-center">Giyur: your DATA VISUALIZATION</h1></div>
               <Routes {...this.props} />
           </div>
       );

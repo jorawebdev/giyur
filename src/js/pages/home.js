@@ -4,10 +4,9 @@ import Signin from '../components/login/signin'
 
 const Home = () => (
   <div>
-    <h1>Welcome to Giyur</h1>
+    <div id="heroBox" className="d-flex justify-content-center"><h1 className="col-4 align-self-center">Giyur: your DATA VISUALIZATION</h1></div>
     <div className="d-flex justify-content-center">
       <Signin />
-      <div className="col-1 align-self-center">or</div>
       <Register />
     </div>
   </div>

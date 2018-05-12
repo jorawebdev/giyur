@@ -1,33 +1,24 @@
 const webpack = require('webpack');
 const path = require("path");
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   mode: 'development',
-  entry: {
-    app: './src/app.js',
-    vendors: ['react-vis','jquery','bootstrap','react-dom']
-  },
+  entry: './src/app.js',
   output: {
-    path: __dirname + '/dist',
+    path: path.resolve(__dirname, "dist"),
     filename: '[name].js'
   },
-  optimization: {
-    splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: "vendors",
-          chunks: "all"
-        }
-      }
-    },
-    minimize: true
-  },
-  devtool: 'inline-source-map',
   resolve: {
     extensions: ['*', '.js', '.jsx']
+  },
+  devtool: 'inline-source-map',
+  watch: true,
+  devServer: {
+    contentBase: "./dist",
+  	port: 9000,
+  	hot: true
   },
   module: {
     rules: [
@@ -45,6 +36,10 @@ module.exports = {
             loader: "html-loader"
           }
         ]
+      },
+      {
+          test:/\.css$/,
+          use:['style-loader','css-loader']
       },
       {
         test: /\.scss$/,
@@ -68,16 +63,12 @@ module.exports = {
         }]
       },
       {
-        test: /\.css$/,
-        use: [ 'style-loader', 'css-loader' ]
-      },
-      {
         test: /.*\.(gif|png|jpe?g|svg)$/i,
         use: [
           {
             loader: 'file-loader',
             options: {
-              name: '[path]/img/[name]_[hash:7].[ext]',
+              name: 'img/[name]_[hash:7].[ext]',
             }
           },
         ]
@@ -85,11 +76,12 @@ module.exports = {
     ]
   },
   plugins: [
+    new CleanWebpackPlugin(['dist']),
+    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new HtmlWebPackPlugin({
-      template: "./index.html",
-      filename: "./index.html"
-    }),
-    new BundleAnalyzerPlugin()
+      filename: './index.html',
+      template: './index.html'
+    })
   ]
 };

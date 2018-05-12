@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../../css/app.css';
 import {XYPlot, LineSeries} from 'react-vis';
 
 class App extends Component {

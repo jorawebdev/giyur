@@ -58,7 +58,7 @@ foreach ($_SERVER as $key => $value) {
 		 *  Connect to Database
 		*/
 		private function dbConnect(){
-			ChromePhp::log('in db');
+			ChromePhp::log('in db', DB_USER);
 			$this->mysqli = new mysqli(self::DB_SERVER, self::DB_USER, self::DB_PASSWORD, self::DB);
 			if (mysqli_connect_errno()) {
 			  echo "Failed to connect to MySQL: " . mysqli_connect_error();
@@ -375,30 +375,41 @@ foreach ($_SERVER as $key => $value) {
 		}
 
 		private function upload(){
-			$userId = urldecode($_GET["user"]);
-			$chartType = urldecode($_GET["ctype"]);
-			$chartName = urldecode($_GET["cname"]);
-			//ChromePhp::log('in upload: ', $_FILES, $userId, $chartType, $chartName);
+			//$userId = urldecode($_GET["user"]);
+			//$chartType = urldecode($_GET["ctype"]);
+			//$chartName = urldecode($_GET["cname"]);
+
+			$userId = urldecode($_POST["user"]);
+			$chartType = urldecode($_POST["ctype"]);
+			$chartName = urldecode($_POST["cname"]);
+			ChromePhp::log('in upload: ', $_FILES, $userId, $chartType, $chartName);
 			if ( !empty( $_FILES ) ) {
 			    $tempPath = $_FILES[ 'file' ][ 'tmp_name' ];
+					ChromePhp::log('1');
 			    $uploadPath = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR . $_FILES[ 'file' ][ 'name' ];
-			    move_uploaded_file( $tempPath, $uploadPath );
+					ChromePhp::log('2', $tempPath, $uploadPath);
+					move_uploaded_file( $tempPath, $uploadPath );
+					ChromePhp::log('3', $userId, $chartType, $chartName);
 			    $this->convertFile($userId, $chartType, $chartName, $_FILES);
+					ChromePhp::log('4');
 			    $answer = array( 'answer' => 'File transfer completed' );
+					ChromePhp::log('5');
 			    $json = json_encode( $answer );
+					ChromePhp::log('success: ');
 			    echo $json;
 			    //$this->convertFile($_FILES);
 			} else {
 				$err = array('status' => "Error", "msg" => "File is not supported. At the moment we only support .csv files.");
 				//$err = json_encode( $answer );
 				$this->response($this->json($err),200);
+					ChromePhp::log('error: ');
 			    echo 'No files';
 			}
 		}
 
 		private function convertFile($userId, $chartType, $chartName, $file){
-			//ChromePhp::log('in covertFile: ', $file);
-			//ChromePhp::log('file type: ', $file['file']['type']);
+			ChromePhp::log('in covertFile: ', $file);
+			ChromePhp::log('file type: ', $file['file']['type']);
 
 			$fileType = '';
 			$finalFileName = uniqid();
@@ -410,26 +421,30 @@ foreach ($_SERVER as $key => $value) {
 			} else if( //allow
 			    $file['file']['type']==='text/csv'){
     				$fileType='CSV';
-    				//ChromePhp::log('1', $fileType);
+    				ChromePhp::log('1', $fileType);
 
-$filePath = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR .$file['file']['name'];
-$targetDir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
-$fileMetaData = array($file['file']['name'], $file['file']['tmp_name'], $file['file']['size'], $file['file']['type']);
-$fh = fopen($filePath, "r");
-$csvData = array();
+						$filePath = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR .$file['file']['name'];
+						$targetDir = dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'uploads' . DIRECTORY_SEPARATOR;
+						$fileMetaData = array($file['file']['name'], $file['file']['tmp_name'], $file['file']['size'], $file['file']['type']);
+						$fh = fopen($filePath, "r");
+						$csvData = array();
+						ChromePhp::log('2', $file['file']['name'], $file['file']['tmp_name'], $file['file']['size'], $file['file']['type']);
 
-while (($row = fgetcsv($fh, ",")) !== FALSE) {
-    //$csvData[] = $row;
-    $csvData[] = new ArrayObject($row);
-}
+						while (($row = fgetcsv($fh, ",")) !== FALSE) {
+								ChromePhp::log('not false');
+						    //$csvData[] = $row;
+						    //$csvData[] = array($row);
+								ChromePhp::log('done');
+						}
 
-$json = json_encode($csvData);
+						ChromePhp::log('json');
+						$json = json_encode($csvData);
 
-//ChromePhp::log('$json:' , $json);
+						ChromePhp::log('$json:');
 
-$dataFile = fopen($targetDir.'data_'.$finalFileName.'.json', 'w');
-fwrite($dataFile, $json);
-//print_r($json);
+						$dataFile = fopen($targetDir.'data_'.$finalFileName.'.json', 'w');
+						fwrite($dataFile, $json);
+						//print_r($json);
 
     				/*
     				$excel = new SimpleExcel($fileType);
@@ -470,8 +485,8 @@ fwrite($dataFile, $json);
 			if($this->get_request_method() != "POST"){
 				$this->response('',406);
 			}
-		        $postdata = file_get_contents("php://input");
-		        $request = json_decode($postdata);
+		  $postdata = file_get_contents("php://input");
+		  $request = json_decode($postdata);
 			$chartType = $request->type;
 			$chart = $request->chart;
 			$chartName = $request->chartName;
@@ -529,6 +544,7 @@ fwrite($dataFile, $json);
 			}
 			$this->response('',204);	// If no records "No Content" status
 		}
+
 		private function chart(){
 			if($this->get_request_method() != "GET"){
 				$this->response('',406);
